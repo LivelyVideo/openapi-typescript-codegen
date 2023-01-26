@@ -76,7 +76,18 @@ export const request = <T>(config: OpenAPIConfig, lvConfigOptions: LvConfig, opt
 			const formData = getFormData(options);
 			const body = getRequestBody(options);
 			const headers = await getHeaders(config, options);
-
+			const configOptions = {
+				uri: lvConfigOptions.uri || url,
+				method: lvConfigOptions.method || options.method,
+				retryStatuses: lvConfigOptions.retryStatuses,
+				retryIntervals: lvConfigOptions.retryIntervals,
+				followRedirect: lvConfigOptions.followRedirect,
+				timeout: lvConfigOptions.timeout,
+				time: lvConfigOptions.time,
+				json: lvConfigOptions.json || options.body,
+				retryOn4xx: lvConfigOptions.retryOn4xx,
+				url: lvConfigOptions.url
+			}
 			if (!onCancel.isCancelled) {
 				// Just passing 'openapi-action' and 'openapi-service' to comply with the signature.
                 const response = await serviceRequest.request('openapi-action', 'openapi-service', configOptions);
