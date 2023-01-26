@@ -28,6 +28,7 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 {{/equals}}
 {{else}}
 import { OpenAPI } from '../core/OpenAPI';
+import { LvConfig } from '../core/LvConfig';
 import { request as __request } from '../core/request';
 {{/if}}
 
@@ -44,6 +45,12 @@ export class {{{name}}}{{{@root.postfix}}} {
 	{{#equals @root.httpClient 'angular'}}
 
 	constructor(public readonly http: HttpClient) {}
+	{{/equals}}
+	{{#equals @root.httpClient 'lv'}}
+
+	constructor(public readonly lvConfig: LvConfig) {
+		this.lvConfig = lvConfig;
+	}
 	{{/equals}}
 	{{/if}}
 
@@ -82,6 +89,11 @@ export class {{{name}}}{{{@root.postfix}}} {
 	{{#equals @root.httpClient 'angular'}}
 	public {{{name}}}({{>parameters}}): Observable<{{>result}}> {
 		return __request(OpenAPI, this.http, {
+	{{else}}
+	{{/equals}}
+	{{#equals @root.httpClient 'lv'}}
+	public {{{name}}}({{>parameters}}): CancelablePromise<{{>result}}> {
+		return __request(OpenAPI, this.lvConfig, {
 	{{else}}
 	public static {{{name}}}({{>parameters}}): CancelablePromise<{{>result}}> {
 		return __request(OpenAPI, {

@@ -1,0 +1,19 @@
+{{>header}}
+
+type DefaultIntervals = {
+	retries: number;
+	intervals: number[];
+}
+
+export type LvConfig = {
+	readonly method: 'GET' | 'PUT' | 'POST' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'PATCH';
+	readonly uri?: string;
+    readonly retryStatuses?: number[];
+    readonly retryIntervals?: DefaultIntervals;
+    readonly followRedirect?: boolean;
+    readonly timeout?: number;
+    readonly time?: boolean;
+	readonly json?: any;
+	readonly retryOn4xx?: boolean;
+	readonly url?: string;
+};

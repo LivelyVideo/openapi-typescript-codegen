@@ -10,6 +10,7 @@ import angularRequest from '../templates/core/angular/request.hbs';
 import angularSendRequest from '../templates/core/angular/sendRequest.hbs';
 import templateCoreApiError from '../templates/core/ApiError.hbs';
 import templateCoreApiRequestOptions from '../templates/core/ApiRequestOptions.hbs';
+import templateCoreLvConfig from '../templates/core/LvConfig.hbs';
 import templateCoreApiResult from '../templates/core/ApiResult.hbs';
 import axiosGetHeaders from '../templates/core/axios/getHeaders.hbs';
 import axiosGetRequestBody from '../templates/core/axios/getRequestBody.hbs';
@@ -52,6 +53,13 @@ import xhrGetResponseBody from '../templates/core/xhr/getResponseBody.hbs';
 import xhrGetResponseHeader from '../templates/core/xhr/getResponseHeader.hbs';
 import xhrRequest from '../templates/core/xhr/request.hbs';
 import xhrSendRequest from '../templates/core/xhr/sendRequest.hbs';
+import lvGetHeaders from '../templates/core/lv/getHeaders.hbs';
+import lvGetRequestBody from '../templates/core/lv/getRequestBody.hbs';
+import lvGetResponseBody from '../templates/core/lv/getResponseBody.hbs';
+import lvGetResponseHeader from '../templates/core/lv/getResponseHeader.hbs';
+import lvRequest from '../templates/core/lv/request.hbs';
+import lvSendRequest from '../templates/core/lv/sendRequest.hbs';
+
 import templateExportModel from '../templates/exportModel.hbs';
 import templateExportSchema from '../templates/exportSchema.hbs';
 import templateExportService from '../templates/exportService.hbs';
@@ -97,6 +105,7 @@ export interface Templates {
         settings: Handlebars.TemplateDelegate;
         apiError: Handlebars.TemplateDelegate;
         apiRequestOptions: Handlebars.TemplateDelegate;
+        lvConfig: Handlebars.TemplateDelegate;
         apiResult: Handlebars.TemplateDelegate;
         cancelablePromise: Handlebars.TemplateDelegate;
         request: Handlebars.TemplateDelegate;
@@ -128,7 +137,8 @@ export const registerHandlebarTemplates = (root: {
         core: {
             settings: Handlebars.template(templateCoreSettings),
             apiError: Handlebars.template(templateCoreApiError),
-            apiRequestOptions: Handlebars.template(templateCoreApiRequestOptions),
+            apiRequestOptions: Handlebars.template(templateCoreApiRequestOptions), 
+            lvConfig: Handlebars.template(templateCoreLvConfig),
             apiResult: Handlebars.template(templateCoreApiResult),
             cancelablePromise: Handlebars.template(templateCancelablePromise),
             request: Handlebars.template(templateCoreRequest),
@@ -220,5 +230,12 @@ export const registerHandlebarTemplates = (root: {
     Handlebars.registerPartial('angular/sendRequest', Handlebars.template(angularSendRequest));
     Handlebars.registerPartial('angular/request', Handlebars.template(angularRequest));
 
+    // Specific files for the lv client implementation
+    Handlebars.registerPartial('lv/getHeaders', Handlebars.template(lvGetHeaders));
+    Handlebars.registerPartial('lv/getRequestBody', Handlebars.template(lvGetRequestBody));
+    Handlebars.registerPartial('lv/getResponseBody', Handlebars.template(lvGetResponseBody));
+    Handlebars.registerPartial('lv/getResponseHeader', Handlebars.template(lvGetResponseHeader));
+    Handlebars.registerPartial('lv/sendRequest', Handlebars.template(lvSendRequest));
+    Handlebars.registerPartial('lv/request', Handlebars.template(lvRequest));
     return templates;
 };
