@@ -1,7 +1,7 @@
 {
-    "name": "openapi-typescript-codegen",
-    "version": "0.23.0-lv-dev",
-    "description": "Library that generates Typescript clients based on the OpenAPI specification.",
+    "name": "@livelyvideo/openapi-typescript-codegen",
+    "version": "0.24.0",
+    "description": "Library that generates Typescript clients based on the OpenAPI specification. (Lively Fork)",
     "author": "Ferdi Koomen",
     "homepage": "https://github.com/ferdikoomen/openapi-typescript-codegen",
     "repository": {
