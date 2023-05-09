@@ -8,7 +8,7 @@ import { ServiceRequest } from '@livelyvideo/ts-service-request';
 
 import { ApiError } from './ApiError';
 import type { ApiRequestOptions } from './ApiRequestOptions';
-import type { LvConfig } from './LvConfig';
+import type { CustomConfig } from './CustomConfig';
 import type { ApiResult } from './ApiResult';
 import { CancelablePromise } from './CancelablePromise';
 import type { OnCancel } from './CancelablePromise';
@@ -44,19 +44,19 @@ import type { OpenAPIConfig } from './OpenAPI';
 {{>functions/resolve}}
 
 
-{{>node/getHeaders}}
+{{>custom/getHeaders}}
 
 
-{{>node/getRequestBody}}
+{{>custom/getRequestBody}}
 
 
-{{>node/sendRequest}}
+{{>custom/sendRequest}}
 
 
-{{>node/getResponseHeader}}
+{{>custom/getResponseHeader}}
 
 
-{{>node/getResponseBody}}
+{{>custom/getResponseBody}}
 
 
 {{>functions/catchErrorCodes}}
@@ -69,24 +69,24 @@ import type { OpenAPIConfig } from './OpenAPI';
  * @returns CancelablePromise<T>
  * @throws ApiError
  */
-export const request = <T>(config: OpenAPIConfig, lvConfigOptions: LvConfig, options: ApiRequestOptions): CancelablePromise<T> => {
+export const request = <T>(serviceRequestConfig: CustomConfig, options: ApiRequestOptions): CancelablePromise<T> => {
 	return new CancelablePromise(async (resolve, reject, onCancel) => {
 		try {
-			const url = getUrl(config, options);
+			const url = getUrl(serviceRequestConfig, options);
 			const formData = getFormData(options);
 			const body = getRequestBody(options);
-			const headers = await getHeaders(config, options);
+			const headers = await getHeaders(serviceRequestConfig, options);
 			const configOptions = {
-				uri: lvConfigOptions.uri || url,
-				method: lvConfigOptions.method || options.method,
-				retryStatuses: lvConfigOptions.retryStatuses,
-				retryIntervals: lvConfigOptions.retryIntervals,
-				followRedirect: lvConfigOptions.followRedirect,
-				timeout: lvConfigOptions.timeout,
-				time: lvConfigOptions.time,
-				json: lvConfigOptions.json || options.body,
-				retryOn4xx: lvConfigOptions.retryOn4xx,
-				url: lvConfigOptions.url
+				method: options.method,
+				url,
+				retryOn4xx: serviceRequestConfig.retryOn4xx,
+				retryStatuses: serviceRequestConfig.retryStatuses,
+				retryIntervals: serviceRequestConfig.retryIntervals,
+				followRedirect: serviceRequestConfig.followRedirect,
+				timeout: serviceRequestConfig.timeout,
+				time: serviceRequestConfig.time,
+				json: body,
+				formData
 			}
 			if (!onCancel.isCancelled) {
 				// Just passing 'openapi-action' and 'openapi-service' to comply with the signature.
@@ -96,10 +96,10 @@ export const request = <T>(config: OpenAPIConfig, lvConfigOptions: LvConfig, opt
 
 				const result: ApiResult = {
 					url,
-					ok: response.ok,
-					status: response.status,
-					statusText: response.statusText,
-					body: responseHeader ?? responseBody,
+					ok: response && response.response && response.response.ok,
+					status: response && response.response && response.response.status,
+					statusText: response && response.response && response.response.statusText,
+					body: response.body,
 				};
 
 				catchErrorCodes(options, result);

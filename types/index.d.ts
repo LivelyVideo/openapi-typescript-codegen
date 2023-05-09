@@ -4,7 +4,7 @@ export declare enum HttpClient {
     NODE = 'node',
     AXIOS = 'axios',
     ANGULAR = 'angular',
-    LV = 'lv',
+    CUSTOM = 'custom',
 }
 
 export declare enum Indent {

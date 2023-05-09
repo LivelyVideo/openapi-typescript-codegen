@@ -5,15 +5,16 @@ type DefaultIntervals = {
 	intervals: number[];
 }
 
-export type LvConfig = {
+export type CustomConfig = {
 	readonly method: 'GET' | 'PUT' | 'POST' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'PATCH';
-	readonly uri?: string;
     readonly retryStatuses?: number[];
     readonly retryIntervals?: DefaultIntervals;
     readonly followRedirect?: boolean;
     readonly timeout?: number;
     readonly time?: boolean;
 	readonly json?: any;
+	readonly formData?: Record<string, any>;
 	readonly retryOn4xx?: boolean;
+	readonly headers?: Record<string, any>;
 	readonly url?: string;
 };

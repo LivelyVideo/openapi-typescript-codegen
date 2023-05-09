@@ -28,7 +28,7 @@ import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 {{/equals}}
 {{else}}
 import { OpenAPI } from '../core/OpenAPI';
-import { LvConfig } from '../core/LvConfig';
+import { CustomConfig } from '../core/CustomConfig';
 import { request as __request } from '../core/request';
 {{/if}}
 
@@ -46,10 +46,10 @@ export class {{{name}}}{{{@root.postfix}}} {
 
 	constructor(public readonly http: HttpClient) {}
 	{{/equals}}
-	{{#equals @root.httpClient 'lv'}}
+	{{#equals @root.httpClient 'custom'}}
 
-	constructor(public readonly lvConfig: LvConfig) {
-		this.lvConfig = lvConfig;
+	constructor(public readonly customConfigOptions: CustomConfig) {
+		this.customConfigOptions = customConfigOptions;
 	}
 	{{/equals}}
 	{{/if}}
@@ -91,9 +91,9 @@ export class {{{name}}}{{{@root.postfix}}} {
 		return __request(OpenAPI, this.http, {
 	{{else}}
 	{{/equals}}
-	{{#equals @root.httpClient 'lv'}}
+	{{#equals @root.httpClient 'custom'}}
 	public {{{name}}}({{>parameters}}): CancelablePromise<{{>result}}> {
-		return __request(OpenAPI, this.lvConfig, {
+		return __request(this.customConfigOptions, {
 	{{else}}
 	public static {{{name}}}({{>parameters}}): CancelablePromise<{{>result}}> {
 		return __request(OpenAPI, {

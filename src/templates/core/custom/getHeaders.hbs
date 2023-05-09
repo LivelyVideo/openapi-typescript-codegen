@@ -1,13 +1,8 @@
-const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptions): Promise<Headers> => {
-	const token = await resolve(options, config.TOKEN);
-	const username = await resolve(options, config.USERNAME);
-	const password = await resolve(options, config.PASSWORD);
-	const additionalHeaders = await resolve(options, config.HEADERS);
-
+export const getHeaders = async (serviceRequestConfigOptions: CustomConfig, options: ApiRequestOptions): Promise<Headers> => {
 	const headers = Object.entries({
 		Accept: 'application/json',
-		...additionalHeaders,
 		...options.headers,
+		...serviceRequestConfigOptions.headers,
 	})
 		.filter(([_, value]) => isDefined(value))
 		.reduce((headers, [key, value]) => ({
@@ -15,13 +10,8 @@ const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptions): Pr
 			[key]: String(value),
 		}), {} as Record<string, string>);
 
-	if (isStringWithValue(token)) {
-		headers['Authorization'] = `Bearer ${token}`;
-	}
-
-	if (isStringWithValue(username) && isStringWithValue(password)) {
-		const credentials = base64(`${username}:${password}`);
-		headers['Authorization'] = `Basic ${credentials}`;
+	if (isStringWithValue(serviceRequestConfigOptions.token)) {
+		headers['Authorization'] = `Bearer ${serviceRequestConfigOptions.token}`;
 	}
 
 	if (options.body) {

@@ -44,8 +44,9 @@ export const writeClientCore = async (
     await writeFile(resolve(outputPath, 'ApiResult.ts'), i(templates.core.apiResult(context), indent));
     await writeFile(resolve(outputPath, 'CancelablePromise.ts'), i(templates.core.cancelablePromise(context), indent));
     await writeFile(resolve(outputPath, 'request.ts'), i(templates.core.request(context), indent));
-    if (httpClient === HttpClientValues.LV) {
-        await writeFile(resolve(outputPath, 'LvConfig.ts'), i(templates.core.lvConfig(context), indent));
+    if (httpClient === HttpClientValues.CUSTOM) {
+        await writeFile(resolve(outputPath, 'CustomConfig.ts'), i(templates.core.customConfig(context), indent));
+        await writeFile(resolve(outputPath, 'CustomApiError.ts'), i(templates.core.customApiError(context), indent));
     }
     if (isDefined(clientName)) {
         await writeFile(resolve(outputPath, 'BaseHttpRequest.ts'), i(templates.core.baseHttpRequest(context), indent));
