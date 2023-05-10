@@ -1,9 +1,6 @@
 {{>header}}
 
 import FormData from 'form-data';
-import fetch, { Headers } from 'node-fetch';
-import type { RequestInit, Response } from 'node-fetch';
-import type { AbortSignal } from 'node-fetch/externals';
 import { ServiceRequest } from '@livelyvideo/ts-service-request';
 
 import { ApiError } from './ApiError';
@@ -11,8 +8,10 @@ import type { ApiRequestOptions } from './ApiRequestOptions';
 import type { CustomConfig } from './CustomConfig';
 import type { ApiResult } from './ApiResult';
 import { CancelablePromise } from './CancelablePromise';
-import type { OnCancel } from './CancelablePromise';
-import type { OpenAPIConfig } from './OpenAPI';
+
+interface Headers {
+	[key: string]: string;
+}
 
 {{>functions/isDefined}}
 
@@ -50,15 +49,6 @@ import type { OpenAPIConfig } from './OpenAPI';
 {{>custom/getRequestBody}}
 
 
-{{>custom/sendRequest}}
-
-
-{{>custom/getResponseHeader}}
-
-
-{{>custom/getResponseBody}}
-
-
 {{>functions/catchErrorCodes}}
 
 
@@ -85,20 +75,19 @@ export const request = <T>(serviceRequestConfig: CustomConfig, options: ApiReque
 				followRedirect: serviceRequestConfig.followRedirect,
 				timeout: serviceRequestConfig.timeout,
 				time: serviceRequestConfig.time,
-				json: body,
+				json: body || true,
+				headers,
 				formData
 			}
+
+			const serviceRequest = new ServiceRequest(undefined, serviceRequestConfig.token);
 			if (!onCancel.isCancelled) {
 				// Just passing 'openapi-action' and 'openapi-service' to comply with the signature.
-                const response = await serviceRequest.request('openapi-action', 'openapi-service', configOptions);
-				const responseBody = await getResponseBody(response);
-				const responseHeader = getResponseHeader(response, options.responseHeader);
+                const response = await serviceRequest.internalRequest('openapi-action', 'openapi-service', configOptions);
 
 				const result: ApiResult = {
-					url,
-					ok: response && response.response && response.response.ok,
-					status: response && response.response && response.response.status,
-					statusText: response && response.response && response.response.statusText,
+					ok: response && response.response && response.response.statusCode && response.response.statusCode <= 299,
+					status: response && response.response && response.response.statusCode,
 					body: response.body,
 				};
 

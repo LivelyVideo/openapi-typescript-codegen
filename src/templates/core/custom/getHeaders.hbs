@@ -10,10 +10,6 @@ export const getHeaders = async (serviceRequestConfigOptions: CustomConfig, opti
 			[key]: String(value),
 		}), {} as Record<string, string>);
 
-	if (isStringWithValue(serviceRequestConfigOptions.token)) {
-		headers['Authorization'] = `Bearer ${serviceRequestConfigOptions.token}`;
-	}
-
 	if (options.body) {
 		if (options.mediaType) {
 			headers['Content-Type'] = options.mediaType;
@@ -26,5 +22,5 @@ export const getHeaders = async (serviceRequestConfigOptions: CustomConfig, opti
 		}
 	}
 
-	return new Headers(headers);
+	return headers;
 };
