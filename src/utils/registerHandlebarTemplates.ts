@@ -12,6 +12,7 @@ import templateCoreApiError from '../templates/core/ApiError.hbs';
 import templateCoreApiRequestOptions from '../templates/core/ApiRequestOptions.hbs';
 import templateCoreCustomApiError from '../templates/core/custom/ApiError.hbs';
 import templateCoreApiResult from '../templates/core/ApiResult.hbs';
+import templateCoreCustomApiResult from '../templates/core/custom/ApiResult.hbs';
 import axiosGetHeaders from '../templates/core/axios/getHeaders.hbs';
 import axiosGetRequestBody from '../templates/core/axios/getRequestBody.hbs';
 import axiosGetResponseBody from '../templates/core/axios/getResponseBody.hbs';

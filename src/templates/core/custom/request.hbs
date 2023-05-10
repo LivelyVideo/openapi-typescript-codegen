@@ -62,24 +62,25 @@ export const request = <T>(serviceRequestConfig: CustomConfig, options: ApiReque
 			const configOptions = {
 				method: options.method,
 				url,
-				headers,
 				retryOn4xx: serviceRequestConfig.retryOn4xx,
 				retryStatuses: serviceRequestConfig.retryStatuses,
 				retryIntervals: serviceRequestConfig.retryIntervals,
 				followRedirect: serviceRequestConfig.followRedirect,
 				timeout: serviceRequestConfig.timeout,
 				time: serviceRequestConfig.time,
-				json: body,
+				json: body || true,
+				headers,
 				formData
 			}
+
+			const serviceRequest = new ServiceRequest(undefined, serviceRequestConfig.token);
 			if (!onCancel.isCancelled) {
 				// Just passing 'openapi-action' and 'openapi-service' to comply with the signature.
-                const response = await ServiceRequest.request('openapi-action', 'openapi-service', configOptions);
+                const response = await serviceRequest.internalRequest('openapi-action', 'openapi-service', configOptions);
+
 				const result: ApiResult = {
-					url,
-					ok: response && response.response && response.response.ok,
-					status: response && response.response && response.response.status,
-					statusText: response && response.response && response.response.statusText,
+					ok: response && response.response && response.response.statusCode && response.response.statusCode <= 299,
+					status: response && response.response && response.response.statusCode,
 					body: response.body,
 				};
 
