@@ -140,7 +140,6 @@ export const registerHandlebarTemplates = (root: {
             apiRequestOptions: Handlebars.template(templateCoreApiRequestOptions), 
             customConfig: Handlebars.template(templateCoreCustomConfig),
             customApiError: Handlebars.template(templateCoreCustomApiError),
-            customApiResult: Handlebars.template(templateCoreCustomApiResult),
             apiResult: Handlebars.template(templateCoreApiResult),
             cancelablePromise: Handlebars.template(templateCancelablePromise),
             request: Handlebars.template(templateCoreRequest),
