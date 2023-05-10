@@ -57,11 +57,7 @@ import xhrRequest from '../templates/core/xhr/request.hbs';
 import xhrSendRequest from '../templates/core/xhr/sendRequest.hbs';
 import templateCoreCustomConfig from '../templates/core/CustomConfig.hbs';
 import customGetHeaders from '../templates/core/custom/getHeaders.hbs';
-import customGetRequestBody from '../templates/core/custom/getRequestBody.hbs';
-import customGetResponseBody from '../templates/core/custom/getResponseBody.hbs';
-import customGetResponseHeader from '../templates/core/custom/getResponseHeader.hbs';
 import customRequest from '../templates/core/custom/request.hbs';
-import customSendRequest from '../templates/core/custom/sendRequest.hbs';
 
 import templateExportModel from '../templates/exportModel.hbs';
 import templateExportSchema from '../templates/exportSchema.hbs';
@@ -239,11 +235,6 @@ export const registerHandlebarTemplates = (root: {
 
     // Specific files for the custom client implementation
     Handlebars.registerPartial('custom/getHeaders', Handlebars.template(customGetHeaders));
-    Handlebars.registerPartial('custom/getRequestBody', Handlebars.template(customGetRequestBody));
-    Handlebars.registerPartial('custom/getResponseBody', Handlebars.template(customGetResponseBody));
-    Handlebars.registerPartial('custom/getResponseHeader', Handlebars.template(customGetResponseHeader));
-    Handlebars.registerPartial('custom/sendRequest', Handlebars.template(customSendRequest));
     Handlebars.registerPartial('custom/request', Handlebars.template(customRequest));
-    Handlebars.registerPartial('custom/getUrl', Handlebars.template(templateCoreCustomApiError));
     return templates;
 };

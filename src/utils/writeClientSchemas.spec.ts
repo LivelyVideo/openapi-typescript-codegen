@@ -48,6 +48,8 @@ describe('writeClientSchemas', () => {
                 request: () => 'request',
                 baseHttpRequest: () => 'baseHttpRequest',
                 httpRequest: () => 'httpRequest',
+                customConfig: () => 'customConfig',
+                customApiError: () => 'customApiError',
             },
         };
 

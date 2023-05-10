@@ -1,3 +1,6 @@
+interface Headers {
+    [key: string]: string;
+};
 export const getHeaders = async (serviceRequestConfigOptions: CustomConfig, options: ApiRequestOptions): Promise<Headers> => {
 	const headers = Object.entries({
 		Accept: 'application/json',

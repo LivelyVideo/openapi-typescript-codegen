@@ -9,10 +9,6 @@ import type { CustomConfig } from './CustomConfig';
 import type { ApiResult } from './ApiResult';
 import { CancelablePromise } from './CancelablePromise';
 
-interface Headers {
-	[key: string]: string;
-}
-
 {{>functions/isDefined}}
 
 
@@ -46,9 +42,6 @@ interface Headers {
 {{>custom/getHeaders}}
 
 
-{{>custom/getRequestBody}}
-
-
 {{>functions/catchErrorCodes}}
 
 
@@ -64,7 +57,7 @@ export const request = <T>(serviceRequestConfig: CustomConfig, options: ApiReque
 		try {
 			const url = getUrl(serviceRequestConfig, options);
 			const formData = getFormData(options);
-			const body = getRequestBody(options);
+			const body = options.body;
 			const headers = await getHeaders(serviceRequestConfig, options);
 			const configOptions = {
 				method: options.method,
