@@ -36,6 +36,8 @@ describe('writeClientServices', () => {
                 request: () => 'request',
                 baseHttpRequest: () => 'baseHttpRequest',
                 httpRequest: () => 'httpRequest',
+                customConfig: () => 'customConfig',
+                customApiError: () => 'customApiError',
             },
         };
 

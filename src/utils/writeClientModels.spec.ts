@@ -48,6 +48,8 @@ describe('writeClientModels', () => {
                 request: () => 'request',
                 baseHttpRequest: () => 'baseHttpRequest',
                 httpRequest: () => 'httpRequest',
+                customConfig: () => 'customConfig',
+                customApiError: () => 'customApiError',
             },
         };
 

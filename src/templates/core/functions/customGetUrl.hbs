@@ -2,7 +2,7 @@ const getUrl = (serviceRequestConfig: CustomConfig, options: ApiRequestOptions):
 	const path = options.url
 		.replace(/{(.*?)}/g, (substring: string, group: string) => {
 			if (options.path?.hasOwnProperty(group)) {
-				return encoder(String(options.path[group]));
+				return encodeURI(String(options.path[group]));
 			}
 			return substring;
 		});

@@ -1,9 +1,6 @@
 {{>header}}
 
 import FormData from 'form-data';
-import fetch, { Headers } from 'node-fetch';
-import type { RequestInit, Response } from 'node-fetch';
-import type { AbortSignal } from 'node-fetch/externals';
 import { ServiceRequest } from '@livelyvideo/ts-service-request';
 
 import { ApiError } from './ApiError';
@@ -11,8 +8,6 @@ import type { ApiRequestOptions } from './ApiRequestOptions';
 import type { CustomConfig } from './CustomConfig';
 import type { ApiResult } from './ApiResult';
 import { CancelablePromise } from './CancelablePromise';
-import type { OnCancel } from './CancelablePromise';
-import type { OpenAPIConfig } from './OpenAPI';
 
 {{>functions/isDefined}}
 
@@ -47,18 +42,6 @@ import type { OpenAPIConfig } from './OpenAPI';
 {{>custom/getHeaders}}
 
 
-{{>custom/getRequestBody}}
-
-
-{{>custom/sendRequest}}
-
-
-{{>custom/getResponseHeader}}
-
-
-{{>custom/getResponseBody}}
-
-
 {{>functions/catchErrorCodes}}
 
 
@@ -74,11 +57,12 @@ export const request = <T>(serviceRequestConfig: CustomConfig, options: ApiReque
 		try {
 			const url = getUrl(serviceRequestConfig, options);
 			const formData = getFormData(options);
-			const body = getRequestBody(options);
+			const body = options.body;
 			const headers = await getHeaders(serviceRequestConfig, options);
 			const configOptions = {
 				method: options.method,
 				url,
+				headers,
 				retryOn4xx: serviceRequestConfig.retryOn4xx,
 				retryStatuses: serviceRequestConfig.retryStatuses,
 				retryIntervals: serviceRequestConfig.retryIntervals,
@@ -90,10 +74,7 @@ export const request = <T>(serviceRequestConfig: CustomConfig, options: ApiReque
 			}
 			if (!onCancel.isCancelled) {
 				// Just passing 'openapi-action' and 'openapi-service' to comply with the signature.
-                const response = await serviceRequest.request('openapi-action', 'openapi-service', configOptions);
-				const responseBody = await getResponseBody(response);
-				const responseHeader = getResponseHeader(response, options.responseHeader);
-
+                const response = await ServiceRequest.request('openapi-action', 'openapi-service', configOptions);
 				const result: ApiResult = {
 					url,
 					ok: response && response.response && response.response.ok,
