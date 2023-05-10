@@ -47,6 +47,7 @@ export const writeClientCore = async (
     if (httpClient === HttpClientValues.CUSTOM) {
         await writeFile(resolve(outputPath, 'CustomConfig.ts'), i(templates.core.customConfig(context), indent));
         await writeFile(resolve(outputPath, 'ApiError.ts'), i(templates.core.customApiError(context), indent));
+        await writeFile(resolve(outputPath, 'ApiResult.ts'), i(templates.core.customApiResult(context), indent));
     }
     if (isDefined(clientName)) {
         await writeFile(resolve(outputPath, 'BaseHttpRequest.ts'), i(templates.core.baseHttpRequest(context), indent));

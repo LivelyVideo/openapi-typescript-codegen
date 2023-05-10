@@ -106,6 +106,7 @@ export interface Templates {
         apiRequestOptions: Handlebars.TemplateDelegate;
         customConfig: Handlebars.TemplateDelegate;
         customApiError: Handlebars.TemplateDelegate;
+        customApiResult: Handlebars.TemplateDelegate;
         apiResult: Handlebars.TemplateDelegate;
         cancelablePromise: Handlebars.TemplateDelegate;
         request: Handlebars.TemplateDelegate;
@@ -140,6 +141,7 @@ export const registerHandlebarTemplates = (root: {
             apiRequestOptions: Handlebars.template(templateCoreApiRequestOptions), 
             customConfig: Handlebars.template(templateCoreCustomConfig),
             customApiError: Handlebars.template(templateCoreCustomApiError),
+            customApiResult: Handlebars.template(templateCoreCustomApiResult),
             apiResult: Handlebars.template(templateCoreApiResult),
             cancelablePromise: Handlebars.template(templateCancelablePromise),
             request: Handlebars.template(templateCoreRequest),
@@ -235,5 +237,6 @@ export const registerHandlebarTemplates = (root: {
     // Specific files for the custom client implementation
     Handlebars.registerPartial('custom/getHeaders', Handlebars.template(customGetHeaders));
     Handlebars.registerPartial('custom/request', Handlebars.template(customRequest));
+    Handlebars.registerPartial('custom/apiResult', Handlebars.template(templateCoreCustomApiResult));
     return templates;
 };

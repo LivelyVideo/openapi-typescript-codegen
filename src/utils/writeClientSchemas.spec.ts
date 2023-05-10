@@ -50,6 +50,7 @@ describe('writeClientSchemas', () => {
                 httpRequest: () => 'httpRequest',
                 customConfig: () => 'customConfig',
                 customApiError: () => 'customApiError',
+                customApiResult: () => 'customApiResult',
             },
         };
 

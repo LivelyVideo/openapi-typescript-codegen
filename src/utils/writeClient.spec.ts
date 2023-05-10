@@ -35,6 +35,7 @@ describe('writeClient', () => {
                 httpRequest: () => 'httpRequest',
                 customConfig: () => 'customConfig',
                 customApiError: () => 'customApiError',
+                customApiResult: () => 'customApiResult',
             },
         };
 
