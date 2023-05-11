@@ -1,0 +1,21 @@
+{{>header}}
+
+type DefaultIntervals = {
+	retries: number;
+	intervals: number[];
+}
+
+export type CustomConfig = {
+	readonly BASE: string;
+    readonly retryStatuses?: number[];
+    readonly retryIntervals?: DefaultIntervals;
+    readonly followRedirect?: boolean;
+    readonly timeout?: number;
+    readonly time?: boolean;
+	readonly json?: any;
+	readonly formData?: Record<string, any>;
+	readonly retryOn4xx?: boolean;
+	readonly headers?: Record<string, any>;
+	readonly url?: string;
+	readonly token?: string;
+};

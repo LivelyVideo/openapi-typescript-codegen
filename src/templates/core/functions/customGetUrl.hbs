@@ -1,0 +1,15 @@
+const getUrl = (serviceRequestConfig: CustomConfig, options: ApiRequestOptions): string => {
+	const path = options.url
+		.replace(/{(.*?)}/g, (substring: string, group: string) => {
+			if (options.path?.hasOwnProperty(group)) {
+				return encodeURI(String(options.path[group]));
+			}
+			return substring;
+		});
+
+	const url = `${serviceRequestConfig.BASE}${path}`;
+	if (options.query) {
+		return `${url}${getQueryString(options.query)}`;
+	}
+	return url;
+};

@@ -1,0 +1,95 @@
+{{>header}}
+
+import FormData from 'form-data';
+import { ServiceRequest } from '@livelyvideo/ts-service-request';
+
+import { ApiError } from './ApiError';
+import type { ApiRequestOptions } from './ApiRequestOptions';
+import type { CustomConfig } from './CustomConfig';
+import type { ApiResult } from './ApiResult';
+import { CancelablePromise } from './CancelablePromise';
+
+{{>functions/isDefined}}
+
+
+{{>functions/isString}}
+
+
+{{>functions/isStringWithValue}}
+
+
+{{>functions/isBlob}}
+
+
+{{>functions/isFormData}}
+
+
+{{>functions/base64}}
+
+
+{{>functions/getQueryString}}
+
+
+{{>functions/customGetUrl}}
+
+
+{{>functions/getFormData}}
+
+
+{{>functions/resolve}}
+
+
+{{>custom/getHeaders}}
+
+
+{{>functions/catchErrorCodes}}
+
+
+/**
+ * Request method
+ * @param config The OpenAPI configuration object
+ * @param options The request options from the service
+ * @returns CancelablePromise<T>
+ * @throws ApiError
+ */
+export const request = <T>(serviceRequestConfig: CustomConfig, options: ApiRequestOptions): CancelablePromise<T> => {
+	return new CancelablePromise(async (resolve, reject, onCancel) => {
+		try {
+			const url = getUrl(serviceRequestConfig, options);
+			const formData = getFormData(options);
+			const body = options.body;
+			const headers = await getHeaders(serviceRequestConfig, options);
+			const configOptions = {
+				method: options.method,
+				url,
+				retryOn4xx: serviceRequestConfig.retryOn4xx,
+				retryStatuses: serviceRequestConfig.retryStatuses,
+				retryIntervals: serviceRequestConfig.retryIntervals,
+				followRedirect: serviceRequestConfig.followRedirect,
+				timeout: serviceRequestConfig.timeout,
+				time: serviceRequestConfig.time,
+				json: body || true,
+				headers,
+				formData
+			}
+
+			const serviceRequest = new ServiceRequest(undefined, serviceRequestConfig.token);
+			if (!onCancel.isCancelled) {
+				// Just passing 'openapi-action' and 'openapi-service' to comply with the signature.
+                const response = await serviceRequest.internalRequest('openapi-action', 'openapi-service', configOptions);
+
+				const result: ApiResult = {
+					ok: response && response.response && response.response.statusCode && response.response.statusCode <= 299,
+					status: response && response.response && response.response.statusCode,
+					body: response.body,
+				};
+
+				catchErrorCodes(options, result);
+
+				resolve(result.body);
+			}
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
