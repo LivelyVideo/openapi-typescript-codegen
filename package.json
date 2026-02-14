@@ -69,7 +69,7 @@
     "devDependencies": {
         "@angular-devkit/build-angular": "21.1.0",
         "@angular/animations": "15.2.6",
-        "@angular/cli": "21.1.0",
+        "@angular/cli": "21.1.4",
         "@angular/common": "21.1.0",
         "@angular/compiler": "21.1.1",
         "@angular/compiler-cli": "21.1.1",
@@ -111,7 +111,7 @@
         "node-fetch": "2.6.9",
         "prettier": "2.8.8",
         "puppeteer": "24.35.0",
-        "qs": "6.14.1",
+        "qs": "6.14.2",
         "rimraf": "5.0.1",
         "rollup": "3.20.2",
         "rollup-plugin-terser": "7.0.2",
