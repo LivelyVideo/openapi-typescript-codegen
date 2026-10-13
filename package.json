@@ -63,7 +63,7 @@
         "camelcase": "^6.3.0",
         "commander": "^10.0.0",
         "fs-extra": "^11.1.1",
-        "handlebars": "^4.7.9",
+        "handlebars": "^4.7.10",
         "json-schema-ref-parser": "^9.0.9"
     },
     "devDependencies": {
